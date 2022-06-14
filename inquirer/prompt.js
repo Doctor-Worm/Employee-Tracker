@@ -1,8 +1,8 @@
-const inquirer = require('inquirer');
 require('console.table');
 const db = require('../db/connection');
 
-const promptDepartment = () => {
+
+const promptDepartments = () => {
     let sql = `SELECT * FROM department`;
     db.query(sql, (err, rows) => {
         if (err) {
@@ -45,4 +45,4 @@ let sql = `SELECT employee.id, first_name, last_name, job_title, department.name
 
 
 
-module.exports = { promptDepartment, promptRoles, promptEmployees };
+module.exports = { promptDepartments, promptRoles, promptEmployees };

@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
-const { promptDepartment, promptRoles, promptEmployees } = require('./prompt');
-// const { createDepartment, createRole, createEmployee, updateEmployee } = require('./create');
+const { promptDepartments, promptRoles, promptEmployees } = require('./prompt');
+const { createDepartment, createRole, createEmployee } = require('./create');
+// const db = require('../db/connection');
 
 // Start with asking what they'd like to do
 const Option = () => {
@@ -13,7 +14,7 @@ const Option = () => {
     }).then(({ options }) => {
     if (options == 'View All Departments') {
         console.log('\nViewing Departments!');
-        promptDepartment();
+        promptDepartments();
     }
     else if (options == 'View All Roles') {
         console.log('\nViewing All Roles!');
@@ -28,6 +29,27 @@ const Option = () => {
         createDepartment();
     }
     else if (options == 'Add a Role') {
+        // function showDatabases() {
+        //     return new Promise((resolve, reject) => {
+        //     let sql = `SELECT * FROM department`;
+        //     db.query(sql, (err, rows) => {
+        //         if (err) {
+        //             console.log(err)
+        //         } else {
+        //         console.log('\nDepartments:\n');
+        //         console.table(rows);
+        //         }
+        //     });
+        //     resolve();
+        //     });
+        // };
+
+        // async function addRole() {
+        //     console.log('\nAdding a Role!');
+        //     await showDatabases();
+        //     createRole();
+        // };
+        // addRole();
         console.log('\nAdding a Role!');
         createRole();
     }
