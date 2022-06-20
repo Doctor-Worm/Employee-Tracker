@@ -14,5 +14,16 @@ const getRoles = () => {
 };
 
 
+const getDepartments = () => {
+    return new Promise((resolve, reject) => {
+        let sql = `SELECT * FROM department`;
+        db.query(sql, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        });
+    });
+};
 
-module.exports = { getRoles };
+
+
+module.exports = { getRoles, getDepartments };

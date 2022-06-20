@@ -1,5 +1,5 @@
 const db = require('./db/connection');
-const { Option } = require('./inquirer/index');
+const { start } = require('./inquirer/index');
 
 
 // Start server after DB connection
@@ -8,4 +8,4 @@ db.connect(err => {
     console.log('Database connected.');
     });
 
-Option();
+start();
