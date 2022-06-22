@@ -311,7 +311,14 @@ const createEmployee = async () => {
 };
 
 
-const updateEmployee = () => {
+const updateEmployee = async () => {
+    let activeEmployees = await getEmployees();
+    let employeeNames = [];
+    for (let i = 0; i < activeEmployees.length; i++) {
+        employeeNames.push(activeEmployees[i].first_name + ' ' + activeEmployees[i].last_name)
+    }
+    console.log(employeeNames);
+            
 
 };
 
