@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const db = require('../db/connection');
-const { getRoles, getDepartments } = require('../utils/queries');
+const { getRoles, getDepartments, getEmployees } = require('../utils/queries');
 
 require('console.table');
 
@@ -126,7 +126,7 @@ const createDepartment = async () => {
                 console.log(err.message);
                 return;
             }
-            console.log(`\nAdded ${params} to database!\n`);
+            console.log(`\nAdded ${params} to the database!\n`);
             start();
         });
     })
@@ -145,12 +145,10 @@ const createRole = async () => {
     let departments = await getDepartments();
     let departmentArray = [];
     for (let i = 0; i < departments.length; i++ ) {
-        console.log(departments[i]);
+        // console.log(departments[i]);
         departmentArray.push(departments[i].name);
     };
-    console.log(departmentArray);
-    // let filteredDepartments = [...new Set(departmentArray)];
-    // console.log(filteredDepartments);
+    // console.log(departmentArray);
     
         inquirer.prompt([
             {
@@ -187,7 +185,7 @@ const createRole = async () => {
             }
         ])
     .then(function(answers) {
-        console.log(answers);
+        // console.log(answers);
         let id = [];
         for (let i = 0; i < departments.length; i++) {
             if (answers.newRoleDepartment == departments[i].name) {
@@ -204,7 +202,7 @@ const createRole = async () => {
                 console.log(err.message);
                 return;
             }
-            console.log(`\nAdded ${answers.newRoleTitle} to database!\n`);
+            console.log(`\nAdded ${answers.newRoleTitle} to the database!\n`);
             start();
         });
 
@@ -222,12 +220,17 @@ const createRole = async () => {
 // Create a New Employee
 const createEmployee = async () => {
     let roles = await getRoles();
+    let employees = await getEmployees();
     let rolesArray = [];
     for (let i = 0; i < roles.length; i++ ) {
-        console.log(roles[i]);
+        // console.log(roles[i]);
         rolesArray.push(roles[i].job_title);
     };
-    console.log(rolesArray);
+    let managerArray = [];
+    for (let i = 0; i < employees.length; i++) {
+        // console.log(employees[i]);
+        managerArray.push(employees[i].first_name + ' ' + employees[i].last_name);
+    }
 
     inquirer.prompt([
         {
@@ -263,30 +266,39 @@ const createEmployee = async () => {
             choices: rolesArray
         },
         {
-            type: 'number',
+            type: 'list',
             name: 'newEmployeeManager',
-            message: 'What is the manager id for the manager that this new employee will answer to? (Required)',
-            validate: newEmployeeManager => {
-                if (newEmployeeManager) {
-                    return true;
-                } else {
-                    console.log("Please enter the new employee's manager id!");
-                    return false;
-                }
-            }
+            message: 'Who is the manager for this new employee? (Required)',
+            choices: managerArray
         }
     ])
 .then(function(answers) {
-    console.log(answers);
+    // console.log(answers);
+    // console.log(roles);
+    let roleID = [];
+        for (let i = 0; i < roles.length; i++) {
+            if (answers.newEmployeeRole == roles[i].job_title) {
+                roleID.push(roles[i].id);
+            }
+        };
+        console.log(`The Role ID is ${roleID}`);
+        let managerID = [];
+        for (let i = 0; i < employees.length; i++) {
+            if (answers.newEmployeeManager == (employees[i].first_name + ' ' + employees[i].last_name)) {
+                managerID.push(employees[i].id);
+            }
+        };
+        console.log(`The Manager ID is ${managerID}`);
     let sql = `INSERT INTO employee(first_name, last_name, role_id, manager_id)
                 VALUES (?, ?, ?, ?)`;
-    let params = [ answers.newFirstName, answers.newLastName, answers.newEmployeeRole, answers.newEmployeeManager ];
+    let params = [ answers.newFirstName, answers.newLastName, roleID, managerID ];
     db.query(sql, params, (err, result) => {
         if (err) {
             console.log(err.message);
             return;
         }
-        console.log(result);
+        console.log(`\nAdded ${answers.newFirstName + ' ' + answers.newLastName} to the database!\n`);
+            start();
     });
 })
 .catch((error) => {

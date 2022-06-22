@@ -25,5 +25,16 @@ const getDepartments = () => {
 };
 
 
+const getEmployees = () => {
+    return new Promise((resolve, reject) => {
+        let sql = `SELECT * FROM employee`;
+        db.query(sql, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        });
+    });
+};
 
-module.exports = { getRoles, getDepartments };
+
+
+module.exports = { getRoles, getDepartments, getEmployees };
