@@ -34,4 +34,4 @@ ___
 
 - **[Link to the GitHub Repository](https://github.com/Doctor-Worm/Employee-Tracker)**
 
-- **[Walkthrough Video](https://drive.google.com/file/d/1cnOS6w-W19MDO3XWrkQImixUhPl2M_kQ/view)**
+- **[Walkthrough Video](https://drive.google.com/file/d/1haI_uKEBWG-P3RQu1h7WGERQ_XzNo7kc/view)**
