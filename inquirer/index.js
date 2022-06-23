@@ -316,10 +316,63 @@ const updateEmployee = async () => {
     let employeeNames = [];
     for (let i = 0; i < activeEmployees.length; i++) {
         employeeNames.push(activeEmployees[i].first_name + ' ' + activeEmployees[i].last_name)
-    }
+    };
+    let currentRoles = await getRoles();
+    let rolesArr = [];
+    for (let i = 0; i < currentRoles.length; i++ ) {
+        rolesArr.push(currentRoles[i].job_title);
+    };
     console.log(employeeNames);
-            
+    console.log(rolesArr);
+    
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'updateEmployee',
+            message: 'Which employee would you like to update their Role?',
+            choices: employeeNames
+        },
+        {
+            type: 'list',
+            name: 'updatedRole',
+            message: 'What is the new role for this employee?',
+            choices: rolesArr
+        },
+    ])
+    .then(function(answers) {
+        console.log(answers);
+        let role_id = [];
+        for (let i = 0; i < currentRoles.length; i++) {
+            if (answers.updatedRole == currentRoles[i].job_title) {
+                role_id.push(currentRoles[i].id);
+            }
+        };
+        let employee_id = [];
+        for (let i = 0; i < activeEmployees.length; i++) {
+            if (answers.updateEmployee  == (activeEmployees[i].first_name + ' ' + activeEmployees[i].last_name)) {
+                employee_id.push(activeEmployees[i].id)
+            };
+        };
 
+        let sql = 'UPDATE employee SET role_id = ? WHERE id = ?';
+        let params = [ role_id, employee_id ];
+
+        db.query(sql, params, (err, result) => {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+            console.log(`\Updated ${answers.updateEmployee} to the role of ${answers.updatedRole}!\n`);
+            start();
+    });
+    })
+    .catch((error) => {
+        if (error.isTtyError) {
+            console.log('Prompt could not be rendered in the current environment');
+        } else {
+            console.log(error);
+        }
+    });
 };
 
 

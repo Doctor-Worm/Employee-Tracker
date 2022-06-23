@@ -8,22 +8,30 @@ ___
 <br>
 
 ## Application Details
-- A command-line application that accepts user input
-- 
+- A command-line application that accepts user input to view, add to, and update employee data.
+- Has the options to:
+    - View all departments
+    - View all roles
+    - View all employees
+    - Add a department
+    - Add a role
+    - Add an employee
+    - Update an employee
+- Data is all stored in a sql database
 
 ___
 
 <br>
 
 ## Challenges Faced
-- 
+- When displaying the prompts through the inquirer npm, it was tricky trying to pull the data from the sql tables and then displaying that as the choices for a prompt question.
+- Also, being able to have a user to select a certain data, but then using someting different as the query insert into the tables when inputing the user data into the tables was difficult.
+    - For example, the user would choose which employee they wanted to update by a list of the names of employees, which would return a first and last name as the answer. However, I had to input that employee's new role id into the table. So I had to loop through both tables, find where they intersected, and then pull the role id from that endpoint so I can input that data into the table to update.
 
 <br>
 
-## *Links to GitHub repository, a walkthrough video, an example README created from the application, and a gif of the application:*
+## *Links to GitHub repository & a walkthrough video:*
 
-![README Generator](https://user-images.githubusercontent.com/98797799/165003290-cfd9cfc0-327b-4fc0-9b38-de1471fceaa8.gif)
+- **[Link to the GitHub Repository](https://github.com/Doctor-Worm/Employee-Tracker)**
 
-- **[Link to the GitHub Repository](https://github.com/Doctor-Worm/Potential-Enigma)**
-
-- **[README Generator Walkthrough Video](https://drive.google.com/file/d/1cnOS6w-W19MDO3XWrkQImixUhPl2M_kQ/view)**
+- **[Walkthrough Video](https://drive.google.com/file/d/1cnOS6w-W19MDO3XWrkQImixUhPl2M_kQ/view)**
